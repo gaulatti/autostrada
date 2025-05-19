@@ -42,14 +42,10 @@ export class AutostradaStack extends cdk.Stack {
     const repository = new Repository(this, `${this.stackName}EcrRepository`, {
       repositoryName: `${this.stackName.toLocaleLowerCase()}`,
     });
-    const pluginRepository = new Repository(this, `${this.stackName}PluginEcrRepository`, {
-      repositoryName: `wiphala-plugin-${this.stackName.toLocaleLowerCase()}`,
-    });
 
     /**
      * Permissions for the ECR repositories
      */
-    pluginRepository.grantPullPush(githubActionsUser);
     repository.grantPullPush(githubActionsUser);
 
 
@@ -61,8 +57,8 @@ export class AutostradaStack extends cdk.Stack {
       retention: RetentionDays.ONE_WEEK,
       removalPolicy: cdk.RemovalPolicy.DESTROY,
     });
-    new LogGroup(this, `${this.stackName}WiphalaPluginLogGroup`, {
-      logGroupName: '/wiphala/plugin/autostrada',
+    new LogGroup(this, `${this.stackName}N8nPluginLogGroup`, {
+      logGroupName: '/n8n/plugin/autostrada',
       retention: RetentionDays.ONE_WEEK,
       removalPolicy: cdk.RemovalPolicy.DESTROY,
     });
