@@ -1,17 +1,21 @@
-// import * as cdk from 'aws-cdk-lib';
-// import { Template } from 'aws-cdk-lib/assertions';
-// import * as Infrastructure from '../lib/infrastructure-stack';
+import * as cdk from 'aws-cdk-lib';
+import { Template } from 'aws-cdk-lib/assertions';
+import { AutostradaStack } from '../lib';
 
-// example test. To run these tests, uncomment this file along with the
-// example resource in lib/infrastructure-stack.ts
-test('SQS Queue Created', () => {
-//   const app = new cdk.App();
-//     // WHEN
-//   const stack = new Infrastructure.InfrastructureStack(app, 'MyTestStack');
-//     // THEN
-//   const template = Template.fromStack(stack);
+const synthesize = () => {
+  process.env.HOSTED_ZONE_ID = 'Z0000000000000';
+  process.env.HOSTED_ZONE_NAME = 'example.invalid';
+  process.env.HOSTED_ZONE_CERTIFICATE = 'arn:aws:acm:us-east-1:111111111111:certificate/00000000-0000-0000-0000-000000000000';
+  process.env.SERVICE_ROLE_ARN = 'arn:aws:iam::111111111111:role/autostrada-service';
 
-//   template.hasResourceProperties('AWS::SQS::Queue', {
-//     VisibilityTimeout: 300
-//   });
+  const app = new cdk.App();
+  return Template.fromStack(new AutostradaStack(app, 'Autostrada'));
+};
+
+test('does not expose deployment credentials through stack outputs', () => {
+  const template = synthesize().toJSON();
+  const outputs = JSON.stringify(template.Outputs ?? {});
+
+  expect(outputs).not.toContain('AutostradaGithubActionsAccessKey');
+  expect(outputs).not.toContain('SecretAccessKey');
 });
