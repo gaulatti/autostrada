@@ -1,7 +1,9 @@
 # Autostrada infrastructure
 
-> **Disposition (verified 2026-09-07): retained infrastructure owner.** This
-> repository owns Autostrada's shared AWS CDK stack. It is not the application
+> **Disposition: retained infrastructure source.** This repository declares
+> Autostrada's shared AWS CDK stack. Historical September reports are unverified;
+> source ownership does not establish current physical cloud ownership or health.
+> It is not the application
 > source repository and its current `main` is not approved for deployment until
 > [issue #2](https://github.com/gaulatti/autostrada/issues/2) reconciles the live
 > stack, source drift, and legacy deployment credential.
@@ -47,6 +49,10 @@ that boundary. Issue #2 owns the eventual migration and rotation.
 ## Delivery contract
 
 ### Local validation
+
+CDK-backed tests and synthesis require separate explicit owner authorization.
+Plain dependency installation and compilation do not authorize any CDK or AWS
+execution. No new CDK execution is claimed in this review.
 
 Use a clean checkout of the exact reviewed commit:
 
@@ -98,10 +104,10 @@ The infrastructure surface is not the same as application health:
 - verify the split repository release at its exact commit; and
 - attach the CloudFormation stack status and approved change-set result.
 
-On 2026-09-07, HTTPS returned the frontend shell with HTTP 200, but an isolated
+The unretained September notes report that HTTPS returned the frontend shell with HTTP 200, but an isolated
 headless Chrome render showed `403 Forbidden`. The API root redirected to a
-YouTube URL, while common health/readiness paths returned 401. That is evidence
-of reachable infrastructure, not a healthy application or a verified release.
+YouTube URL, while common health/readiness paths returned 401. That historical report establishes neither current reachable infrastructure
+nor a healthy application or verified release.
 
 ### Recovery and rollback
 
@@ -114,7 +120,14 @@ Frontend rollback is owned by
 [`autostrada-frontend#21`](https://github.com/gaulatti/autostrada-frontend/issues/21),
 and service recovery remains with the service repository owner.
 
-## Evidence snapshot — 2026-09-07
+## Historical reports — 2026-09-07 (unverified)
+
+Original API, AWS, DNS, HTTP, browser, package and consumer command receipts were
+not retained with the proposal. The table and historical observations below
+record reported September findings, not independently verified current resource
+existence, ownership, absence, credential state or health. Current compiler and
+source checks are recorded separately; this source change applies nothing to
+AWS.
 
 No deployment, stack update, DNS change, credential mutation, object write, or
 archive action was performed during this audit.
