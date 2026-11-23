@@ -1,4 +1,4 @@
-import { CfnOutput, Stack } from 'aws-cdk-lib';
+import { Stack } from 'aws-cdk-lib';
 import { CfnAccessKey, User } from 'aws-cdk-lib/aws-iam';
 
 const createGitHubActionsPermissions = (stack: Stack) => {
@@ -15,12 +15,6 @@ const createGitHubActionsPermissions = (stack: Stack) => {
   const accessKey = new CfnAccessKey(stack, `${stack.stackName}GithubActionsAccessKey`, {
     userName: githubActionsUser.userName,
   });
-
-  /**
-   * Output the access key ID and secret access key
-   */
-  new CfnOutput(stack, `${stack.stackName}GithubActionsAccessKeyId`, { value: accessKey.ref, description: 'GithubActions/Key' });
-  new CfnOutput(stack, `${stack.stackName}GithubActionsSecretAccessKey`, { value: accessKey.attrSecretAccessKey, description: 'GithubActions/Secret' });
 
   return { githubActionsUser };
 };
